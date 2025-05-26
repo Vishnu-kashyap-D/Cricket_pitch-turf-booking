@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Pitch Booking API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .endpoints {
+            margin-top: 20px;
+        }
+        .endpoint {
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+        .method {
+            font-weight: bold;
+            color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cricket Pitch Booking API</h1>
+        <p>Welcome to the Cricket Pitch Booking API. This API provides endpoints for managing cricket pitch bookings.</p>
+        
+        <div class="endpoints">
+            <h2>Available Endpoints:</h2>
+            <div class="endpoint">
+                <span class="method">POST</span> /api/auth/register - Register a new user
+            </div>
+            <div class="endpoint">
+                <span class="method">POST</span> /api/auth/login - Login user
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span> /api/pitches - Get all pitches
+            </div>
+            <div class="endpoint">
+                <span class="method">POST</span> /api/bookings - Create a new booking
+            </div>
+            <div class="endpoint">
+                <span class="method">GET</span> /api/bookings - Get user bookings
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
