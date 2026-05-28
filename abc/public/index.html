@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Pitch Booking System</title>
+    <link rel="stylesheet" href="styles.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Critical inline styles to ensure action buttons are visible even when external CSS is cached */
+        .card-actions{display:flex;gap:8px;margin-top:10px}
+        .btn-view-reviews, .btn-direct-book{padding:8px 12px;border-radius:6px;border:none;cursor:pointer;font-weight:600}
+        .btn-view-reviews{background:linear-gradient(90deg,#06b6d4,#3b82f6);color:#fff}
+        .btn-direct-book{background:linear-gradient(90deg,#4ade80,#16a34a);color:#084f1a}
+        @media(max-width:600px){.card-actions{flex-direction:row;gap:6px}}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-cricket-bat-ball"></i>
+            <span>Cricket Booking</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">Home</a>
+            <a href="#pitches">Pitches</a>
+            <a href="#branches">Branches</a>
+            <a href="#my-bookings">My Bookings</a>
+        </div>
+        <div class="auth-buttons">
+            <button class="btn-login" id="loginBtn">Login</button>
+            <button class="btn-register" id="registerBtn">Register</button>
+            <div class="user-profile" style="display: none;">
+                <span id="userName"></span>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Phone</label>
+                    <input type="tel" id="registerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerAddress">Address</label>
+                    <textarea id="registerAddress" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Book Your Cricket Pitch</h1>
+            <p>Find and book cricket pitches and nets across multiple locations</p>
+            <a href="#booking-form" class="btn-primary">Book Now</a>
+        </div>
+    </header>
+
+    
+
+    <main>
+        <section id="pitches" class="section">
+            <h2>Available Pitches</h2>
+            <div class="pitch-grid" id="pitchContainer">
+                <div class="pitch-card" data-pitch-id="NET-001">
+                    <img src="https://total-play.co.uk/wp-content/uploads/2024/09/cricket-nets-setup-1.jpg" 
+                         alt="Cricket Net" 
+                         class="pitch-image">
+                    <div class="pitch-info">
+                        <h3>Cricket Net</h3>
+                        <p>Mumbai Cricket Club - NET-001</p>
+                        <p class="pitch-price">₹500/hour</p>
+                        <p>Status: <span class="available">Available</span></p>
+                        <div class="reviews-preview">
+                            <div class="review-card">
+                                <img class="review-photo" src="https://images.unsplash.com/photo-1521412644187-c49fa049e84d?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" alt="reviewer">
+                                <div>
+                                    <div class="reviewer-name">A. Sharma</div>
+                                    <div class="review-text">Great nets and quick booking.</div>
+                                </div>
+                            </div>
+                            <div class="review-card">
+                                <img class="review-photo" src="https://images.unsplash.com/photo-1531123414780-f9f9f9a2f8a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" alt="reviewer2">
+                                <div>
+                                    <div class="reviewer-name">V. Kumar</div>
+                                    <div class="review-text">Well-maintained nets and friendly staff.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-view-reviews">View reviews</button>
+                            <button class="btn-direct-book" data-pitch-id="NET-001">Book</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pitch-card" data-pitch-id="PITCH-001">
+                    <img src="https://www.shutterstock.com/image-illustration/illuminated-round-cricket-stadium-full-600nw-1393589660.jpg" 
+                         alt="Full Pitch" 
+                         class="pitch-image">
+                    <div class="pitch-info">
+                        <h3>Full Pitch</h3>
+                        <p>Mumbai Cricket Club - PITCH-001</p>
+                        <p class="pitch-price">₹2000/hour</p>
+                        <p>Status: <span class="available">Available</span></p>
+                        <div class="reviews-preview">
+                            <div class="review-card">
+                                <img class="review-photo" src="https://images.unsplash.com/photo-1544937954-3c9f8fcf6a1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" alt="reviewer">
+                                <div>
+                                    <div class="reviewer-name">R. Singh</div>
+                                    <div class="review-text">Excellent turf and lighting.</div>
+                                </div>
+                            </div>
+                            <div class="review-card">
+                                <img class="review-photo" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" alt="reviewer2">
+                                <div>
+                                    <div class="reviewer-name">M. Rao</div>
+                                    <div class="review-text">Perfect for evening practice sessions.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-view-reviews">View reviews</button>
+                            <button class="btn-direct-book" data-pitch-id="PITCH-001">Book</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pitch-card" data-pitch-id="NET-002">
+                    <img src="https://www.shutterstock.com/image-photo/front-view-cricket-batsman-action-600nw-2341675921.jpg" 
+                         alt="Practice Net" 
+                         class="pitch-image">
+                    <div class="pitch-info">
+                        <h3>Practice Net</h3>
+                        <p>Delhi Sports Club - NET-002</p>
+                        <p class="pitch-price">₹400/hour</p>
+                        <p>Status: <span class="available">Available</span></p>
+                        <div class="reviews-preview">
+                            <div class="review-card">
+                                <img class="review-photo" src="https://images.unsplash.com/photo-1549576490-b0b4831ef60a?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" alt="reviewer">
+                                <div>
+                                    <div class="reviewer-name">S. Patel</div>
+                                    <div class="review-text">Coaches are very helpful.</div>
+                                </div>
+                            </div>
+                            <div class="review-card">
+                                <img class="review-photo" src="https://images.unsplash.com/photo-1518600506278-4e8ef466b810?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" alt="reviewer2">
+                                <div>
+                                    <div class="reviewer-name">T. Mehta</div>
+                                    <div class="review-text">Affordable rates and clean nets.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-view-reviews">View reviews</button>
+                            <button class="btn-direct-book" data-pitch-id="NET-002">Book</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pitch-card" data-pitch-id="TURF-001">
+                    <img src="https://playo.gumlet.io/GOODTURF20241127042730587971/GoodTurf1732949003048.jpeg" 
+                         alt="Turf Pitch" 
+                         class="pitch-image">
+                    <div class="pitch-info">
+                        <h3>Turf Pitch</h3>
+                        <p>Bangalore Cricket Academy - TURF-001</p>
+                        <p class="pitch-price">₹1500/hour</p>
+                        <p>Status: <span class="unavailable">Not Available</span></p>
+                        <div class="reviews-preview">
+                            <div class="review-card">
+                                <img class="review-photo" src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" alt="reviewer">
+                                <div>
+                                    <div class="reviewer-name">K. Das</div>
+                                    <div class="review-text">Good surface but busy weekends.</div>
+                                </div>
+                            </div>
+                            <div class="review-card">
+                                <img class="review-photo" src="https://images.unsplash.com/photo-1502720705749-3c8a4a1316f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" alt="reviewer2">
+                                <div>
+                                    <div class="reviewer-name">L. Fernandes</div>
+                                    <div class="review-text">Good coaching and neat outfield.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-view-reviews">View reviews</button>
+                            <button class="btn-direct-book" data-pitch-id="TURF-001">Book</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="branches" class="section">
+            <h2>Our Locations</h2>
+            <div class="branch-grid" id="branchContainer">
+                <!-- Branches will be loaded dynamically -->
+            </div>
+        </section>
+
+        <section id="booking-form" class="section">
+            <h2>Make a Booking</h2>
+            <form id="bookingForm" class="booking-form">
+                <div class="form-group">
+                    <label for="pitchSelect">Select Pitch</label>
+                    <select id="pitchSelect" required>
+                        <option value="">Choose a pitch...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookingDate">Booking Date</label>
+                    <input type="date" id="bookingDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="entryTime">Entry Time</label>
+                    <input type="time" id="entryTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="exitTime">Exit Time</label>
+                    <input type="time" id="exitTime" required>
+                </div>
+                <div style="display:flex;gap:10px;align-items:center">
+                    <button type="submit" class="btn-primary">Confirm Booking</button>
+                    <button type="button" id="wholeDayBtn" class="btn-primary" style="background:linear-gradient(90deg,#f97316,#7c3aed);">Whole Day Booking</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="my-bookings" class="section">
+            <h2>My Bookings</h2>
+            <div id="bookingsContainer" class="bookings-grid">
+                <!-- Bookings will be loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Reviews Modal -->
+    <div id="reviewsModal" class="modal">
+        <div class="modal-content reviews-modal-content">
+            <span class="close" id="closeReviews">&times;</span>
+            <h2 id="reviewsModalTitle">Reviews</h2>
+            <div id="reviewsList" class="reviews-list">
+                <!-- reviews inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-phone"></i> +91 6362991486</p>
+                <p><i class="fas fa-envelope"></i> vishnukashyapd@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#pitches">Pitches</a>
+                <a href="#branches">Branches</a>
+                <a href="#my-bookings">Bookings</a>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Cricket Booking System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Inline handlers to guarantee button functionality if external JS is cached -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            function attachInlineHandlers(){
+                document.querySelectorAll('.btn-direct-book').forEach(function(btn){
+                    btn.addEventListener('click', function(e){
+                        var pid = btn.getAttribute('data-pitch-id');
+                        var select = document.getElementById('pitchSelect');
+                        if(select){
+                            // if option exists, select it; otherwise add and select
+                            var opt = select.querySelector('option[value="'+pid+'"]');
+                            if(!opt){
+                                opt = document.createElement('option'); opt.value = pid; opt.text = pid; select.appendChild(opt);
+                            }
+                            select.value = pid;
+                        }
+                        var form = document.getElementById('booking-form') || document.getElementById('bookingForm');
+                        if(form){ form.scrollIntoView({behavior:'smooth', block:'center'}); }
+                    });
+                });
+
+                document.querySelectorAll('.btn-view-reviews').forEach(function(btn){
+                    btn.addEventListener('click', function(){
+                        var card = btn.closest('.pitch-card');
+                        if(!card) return;
+                        var titleEl = card.querySelector('h3');
+                        var title = titleEl ? titleEl.innerText : 'Reviews';
+                        var reviewsList = document.getElementById('reviewsList');
+                        if(!reviewsList) return;
+                        reviewsList.innerHTML = '';
+                        card.querySelectorAll('.review-card').forEach(function(rc){
+                            var clone = rc.cloneNode(true);
+                            clone.style.marginBottom = '8px';
+                            reviewsList.appendChild(clone);
+                        });
+                        var modal = document.getElementById('reviewsModal');
+                        var modalTitle = document.getElementById('reviewsModalTitle');
+                        if(modalTitle) modalTitle.innerText = title + ' - Reviews';
+                        if(modal) modal.style.display = 'block';
+                    });
+                });
+
+                var closeBtns = document.querySelectorAll('#reviewsModal .close');
+                closeBtns.forEach(function(c){ c.addEventListener('click', function(){ var m = document.getElementById('reviewsModal'); if(m) m.style.display='none'; }); });
+            }
+            attachInlineHandlers();
+        });
+    </script>
+
+    <script src="script.js?v=4"></script>
+</body>
+</html> 
