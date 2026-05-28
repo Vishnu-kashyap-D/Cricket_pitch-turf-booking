@@ -71,3 +71,37 @@ Contributing
 License
 -------
 MIT
+
+System Architecture (Mermaid)
+----------------------------
+```mermaid
+flowchart LR
+   Browser -->|HTTP| Server[Express Server]
+   Server -->|Queries| MySQL[(MySQL Database)]
+   Server -->|Serves files| Static[abc/public/*]
+   Server -->|Auth JWT| Browser
+```
+
+API Routes (examples)
+---------------------
+- `GET /api/pitches` - list pitches
+- `GET /api/branches` - list branches
+- `POST /api/register` - register user
+- `POST /api/login` - login and return JWT
+- `POST /api/bookings` - create booking (requires JWT)
+- `GET /api/my-bookings` - fetch current user's bookings (requires JWT)
+
+How to run (dev)
+---------------
+1. Edit DB credentials in `abc/server.js` or the relevant config file.
+2. Install dependencies and start server in the `abc` folder:
+
+   cd abc
+   npm install
+   node server.js
+
+3. Open `http://localhost:5000` in your browser.
+
+Cleanup large files
+-------------------
+I removed `node_modules` and caches from the tracked files and added a `.gitignore`. To fully remove large files from the repository history, run BFG or `git filter-repo` locally and force-push. Ask me and I can prepare the commands.
