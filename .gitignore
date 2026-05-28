@@ -23,3 +23,6 @@ Thumbs.db
 # Build outputs
 dist/
 build/
+
+# Archive folder for removed projects
+archive/
